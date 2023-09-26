@@ -157,6 +157,7 @@ class NativeAssetsBuildRunner {
     final assets = <Asset>[];
     var success = true;
     for (final package in buildPlan) {
+      throw package.name;
       final config = await _cliConfigDryRun(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
