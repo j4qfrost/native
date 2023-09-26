@@ -157,7 +157,6 @@ class NativeAssetsBuildRunner {
     final assets = <Asset>[];
     var success = true;
     for (final package in buildPlan) {
-      throw package.name;
       final config = await _cliConfigDryRun(
         packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
@@ -276,6 +275,7 @@ ${result.stdout}
     try {
       final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
       final assets = buildOutput?.assets ?? [];
+      throw config.packageName;
       success &= validateAssetsPackage(assets, config.packageName);
       final dependencies = buildOutput?.dependencies.dependencies ?? [];
       final metadata = dryRun ? null : buildOutput?.metadata;
