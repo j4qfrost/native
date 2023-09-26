@@ -275,7 +275,6 @@ ${result.stdout}
     try {
       final buildOutput = await BuildOutput.readFromFile(outDir: outDir);
       final assets = buildOutput?.assets ?? [];
-      throw config.packageName;
       success &= validateAssetsPackage(assets, config.packageName);
       final dependencies = buildOutput?.dependencies.dependencies ?? [];
       final metadata = dryRun ? null : buildOutput?.metadata;
@@ -472,8 +471,7 @@ extension on DateTime {
 }
 
 extension on BuildConfig {
-  String get packageName =>
-      packageRoot.pathSegments.lastWhere((e) => e.isNotEmpty);
+  String get packageName => config.string('name');
 }
 
 int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());
