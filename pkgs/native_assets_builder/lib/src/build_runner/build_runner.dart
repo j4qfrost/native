@@ -84,6 +84,7 @@ class NativeAssetsBuildRunner {
         targetMetadata: metadata,
       );
       final config = await _cliConfig(
+        packageName: package.name,
         packageRoot: packageLayout.packageRoot(package.name),
         target: target,
         buildMode: buildMode,
@@ -310,6 +311,7 @@ build_output.yaml contained a format error.
   }
 
   static Future<BuildConfig> _cliConfig({
+    required String packageName,
     required Uri packageRoot,
     required Target target,
     IOSSdk? targetIOSSdk,
@@ -321,6 +323,7 @@ build_output.yaml contained a format error.
     DependencyMetadata? dependencyMetadata,
   }) async {
     final buildDirName = BuildConfig.checksum(
+      packageName: packageName,
       packageRoot: packageRoot,
       targetOs: target.os,
       targetArchitecture: target.architecture,
@@ -338,6 +341,7 @@ build_output.yaml contained a format error.
       await outDir.create(recursive: true);
     }
     return BuildConfig(
+      packageName: packageName,
       outDir: outDirUri,
       packageRoot: packageRoot,
       targetOs: target.os,
@@ -365,6 +369,7 @@ build_output.yaml contained a format error.
       await outDir.create(recursive: true);
     }
     return BuildConfig.dryRun(
+      packageName: packageName,
       outDir: outDirUri,
       packageRoot: packageRoot,
       targetOs: targetOs,
@@ -468,11 +473,6 @@ extension on DateTime {
   DateTime roundDownToSeconds() =>
       DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch -
           millisecondsSinceEpoch % Duration(seconds: 1).inMilliseconds);
-}
-
-extension on BuildConfig {
-  String get packageName =>
-      packageRoot.pathSegments.lastWhere((e) => e.isNotEmpty);
 }
 
 int _uriCompare(Uri u1, Uri u2) => u1.toString().compareTo(u2.toString());
